@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('pets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('organization_id');
             $table->string('name', 100);
             $table->enum('species', ['dog', 'cat'])->default('dog');
             $table->enum('gender', ['m', 'f', 'u'])->default('u');

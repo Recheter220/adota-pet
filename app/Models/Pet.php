@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int    id
+ * @property int    organization_id
  * @property string name
  * @property string species
  * @property string gender
@@ -22,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon created_at
  * @property Carbon updated_at
  * @property Carbon deleted_at
+ * @property Organization organization
  */
 #[UseFactory(PetFactory::class)]
 class Pet extends Model
@@ -29,11 +31,16 @@ class Pet extends Model
     use SoftDeletes, HasFactory;
 
     protected $fillable = [
-        'name', 'species', 'gender', 'breed', 'color', 'birthday', 'bio', 'picture',
+        'organization_id', 'name', 'species', 'gender', 'breed', 'color', 'birthday', 'bio', 'picture',
     ];
 
     public function getPictureAttribute()
     {
         return asset('profile/' . $this->attributes['picture']);
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

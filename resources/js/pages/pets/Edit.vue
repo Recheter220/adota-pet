@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import type { Pet } from '@/types';
+import type { Pet } from '@/types/models/pet';
 
 type Props = {
     pet: Pet;

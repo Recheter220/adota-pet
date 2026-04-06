@@ -1,5 +1,9 @@
+import type { Organization } from "./organization";
+
 export type Pet = {
     id: number;
+    organization_id: number;
+    organization: Organization;
     name: string;
     species: string;
     gender: string;

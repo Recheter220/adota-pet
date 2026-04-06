@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import ImageUpload from '@/shared/ImageUpload.vue';
 
 const form = useForm({
     name: '',
@@ -10,7 +9,6 @@ const form = useForm({
     color: '',
     birthday: '',
     bio: '',
-    gallery: [],
 });
 
 const submit = () => {
@@ -135,16 +133,6 @@ const submit = () => {
                     rows="4"
                     class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                 ></textarea>
-            </div>
-
-            <div>
-                <ImageUpload
-                    v-model="form.gallery"
-                    multiple
-                    accept="*"
-                    label="Galeria de Fotos"
-                    :error="$page.props.errors.gallery"
-                />
             </div>
 
             <div class="flex items-center justify-between space-x-3 pt-4">

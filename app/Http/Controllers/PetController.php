@@ -22,9 +22,9 @@ class PetController extends Controller
      */
     public function index()
     {
-        $pets = Pet::all();
+        $pets = Pet::with('organization')->get();
 
-        return Inertia::render('pets/List', [
+        return Inertia::render('pets/Index', [
             'pets' => $pets,
         ]);
     }
@@ -60,7 +60,7 @@ class PetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Pet $pet)
     {
         //
     }
@@ -68,10 +68,8 @@ class PetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Pet $pet)
     {
-        $pet = Pet::find($id);
-
         return Inertia::render('pets/Edit', [
             'pet' => $pet,
         ]);
@@ -80,7 +78,7 @@ class PetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Pet $pet)
     {
         /** @var Pet */
         $pet = Pet::find($id);
@@ -93,7 +91,7 @@ class PetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Pet $pet)
     {
         $pet = Pet::find($id);
         if ($pet) {

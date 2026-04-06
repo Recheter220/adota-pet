@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Organization;
 use App\Models\Pet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,6 +19,7 @@ class PetFactory extends Factory
     public function definition(): array
     {
         return [
+            'organization_id' => Organization::inRandomOrder()->first()->id,
             'name' => fake()->name(),
             'species' => fake()->randomElement(['dog', 'cat']),
             'gender' => fake()->randomElement(['m', 'f']),

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { Pencil, Heart, PlusCircle } from 'lucide-vue-next';
-import type { Pet } from '@/types';
+import type { Pet } from '@/types/models/pet';
 
 type Props = {
     pets: Pet[];
@@ -46,6 +46,7 @@ defineProps<Props>();
                     </div>
                 </div>
                 <ul>
+                    <li>Organização: {{ pet.organization.name }}</li>
                     <li>Nome: {{ pet.name }}</li>
                     <li>Sexo: {{ pet.gender.toUpperCase() }}</li>
                     <li>Idade: {{ pet.birthday }}</li>

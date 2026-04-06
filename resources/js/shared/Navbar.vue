@@ -25,6 +25,13 @@ import { Link } from '@inertiajs/vue3';
                             >Pets
                         </Link>
                     </li>
+                    <li class="">
+                        <Link
+                            href="/organizations"
+                            class="m-0 block rounded-md p-2 text-blue-400 hover:bg-neutral-200"
+                            >Organizações
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -1,28 +1,33 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import ImageUpload from '@/shared/ImageUpload.vue';
+import type { Pet } from '@/types';
+
+type Props = {
+    pet: Pet;
+};
+
+const props = defineProps<Props>();
 
 const form = useForm({
-    name: '',
-    species: 'dog',
-    gender: 'm',
-    breed: '',
-    color: '',
-    birthday: '',
-    bio: '',
-    gallery: [],
+    name: props.pet.name,
+    species: props.pet.species,
+    gender: props.pet.gender,
+    breed: props.pet.breed,
+    color: props.pet.color,
+    birthday: props.pet.birthday,
+    bio: props.pet.bio,
 });
 
 const submit = () => {
-    form.post(`/pets`);
+    form.patch(`/pets/${props.pet.id}`);
 };
 </script>
 
 <template>
-    <Head title="Cadastrar Pet" />
+    <Head :title="`Editar Pet`" />
 
     <div class="mx-auto max-w-2xl p-6">
-        <h1 class="mb-6 text-2xl font-bold">Cadastrar Pet</h1>
+        <h1 class="mb-6 text-2xl font-bold">Editar Pet: {{ pet.name }}</h1>
 
         <form
             @submit.prevent="submit"
@@ -38,11 +43,8 @@ const submit = () => {
                     class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                     required
                 />
-                <div
-                    v-if="$page.props.errors.name"
-                    class="mt-1 text-sm text-red-500"
-                >
-                    {{ $page.props.errors.name }}
+                <div v-if="form.errors.name" class="mt-1 text-sm text-red-500">
+                    {{ form.errors.name }}
                 </div>
             </div>
 
@@ -84,12 +86,6 @@ const submit = () => {
                         type="text"
                         class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                     />
-                    <div
-                        v-if="$page.props.errors.breed"
-                        class="mt-1 text-sm text-red-500"
-                    >
-                        {{ $page.props.errors.breed }}
-                    </div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
@@ -100,12 +96,6 @@ const submit = () => {
                         type="text"
                         class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                     />
-                    <div
-                        v-if="$page.props.errors.color"
-                        class="mt-1 text-sm text-red-500"
-                    >
-                        {{ $page.props.errors.color }}
-                    </div>
                 </div>
             </div>
 
@@ -115,15 +105,9 @@ const submit = () => {
                 >
                 <input
                     v-model="form.birthday"
-                    type="text"
+                    type="date"
                     class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                 />
-                <div
-                    v-if="$page.props.errors.birthday"
-                    class="mt-1 text-sm text-red-500"
-                >
-                    {{ $page.props.errors.birthday }}
-                </div>
             </div>
 
             <div>
@@ -135,16 +119,6 @@ const submit = () => {
                     rows="4"
                     class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                 ></textarea>
-            </div>
-
-            <div>
-                <ImageUpload
-                    v-model="form.gallery"
-                    multiple
-                    accept="*"
-                    label="Galeria de Fotos"
-                    :error="$page.props.errors.gallery"
-                />
             </div>
 
             <div class="flex items-center justify-between space-x-3 pt-4">
