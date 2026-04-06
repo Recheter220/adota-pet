@@ -15,6 +15,11 @@ class PetController extends Controller
         'breed' => 'raça',
         'color' => 'cor',
         'birthday' => 'nascimento',
+        'gallery' => 'galeria de fotos'
+    ];
+
+    protected $messages = [
+        'gallery' => 'A galeria de fotos deve conter apenas arquivos de imagem',
     ];
 
     /**
@@ -50,6 +55,7 @@ class PetController extends Controller
             'color' => ['required', 'string'],
             'birthday' => ['required', 'date'],
             'bio' => ['required', 'string'],
+            'gallery' => ['array', 'mimetypes:images/*']
         ], $this->messages, $this->fields);
 
         $pet = Pet::create($validated);
@@ -80,8 +86,6 @@ class PetController extends Controller
      */
     public function update(Request $request, Pet $pet)
     {
-        /** @var Pet */
-        $pet = Pet::find($id);
         $pet->fill($request->input());
         $pet->save();
 
@@ -93,10 +97,7 @@ class PetController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        $pet = Pet::find($id);
-        if ($pet) {
-            $pet->delete();
-        }
+        $pet->delete();
 
         return redirect()->route('pets.index');
     }
