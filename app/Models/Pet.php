@@ -36,7 +36,7 @@ class Pet extends Model
 
     public function getPictureAttribute()
     {
-        return asset('profile/' . $this->attributes['picture']);
+        return asset($this->attributes['picture']);
     }
 
     public function organization()

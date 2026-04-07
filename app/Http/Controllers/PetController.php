@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
 use App\Models\Pet;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
 
 class PetController extends Controller
@@ -55,10 +57,19 @@ class PetController extends Controller
             'color' => ['required', 'string'],
             'birthday' => ['required', 'date'],
             'bio' => ['required', 'string'],
-            'gallery' => ['array', 'mimetypes:images/*']
+            'gallery' => ['mimetypes:image/*']
         ], $this->messages, $this->fields);
 
+        /** TODO: remove hardcoded organization_id before Auth */
+        $organization_id = Organization::inRandomOrder()->first()->id;
+        $validated['organization_id'] = $organization_id;
+
         $pet = Pet::create($validated);
+
+        /** @var UploadedFile $picture */
+        $picture = $validated['gallery'];
+        $path = sprintf('app/public/pets/gallery/%d', $pet->id);
+        $picture->store(storage_path($path));
 
         return redirect()->route('pets.index');
     }
