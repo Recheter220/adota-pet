@@ -68,8 +68,9 @@ class PetController extends Controller
 
         /** @var UploadedFile $picture */
         $picture = $validated['gallery'];
-        $path = sprintf('app/public/pets/gallery/%d', $pet->id);
-        $picture->store(storage_path($path));
+        $path = sprintf('pets/gallery/%d', $pet->id);
+        $pet->picture = $picture->storePublicly($path);
+        $pet->save();
 
         return redirect()->route('pets.index');
     }
