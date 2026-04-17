@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { Pencil, Heart, PlusCircle } from 'lucide-vue-next';
+import Carousel from '@/shared/Carousel.vue';
 import type { Pet } from '@/types/models/pet';
 
 type Props = {
@@ -33,7 +34,12 @@ defineProps<Props>();
         >
             <div v-for="pet of pets" v-bind:key="pet.id" class="card">
                 <div>
-                    <img :src="pet.picture" class="m-auto mb-5 max-h-50" />
+                    <div class="gallery-container p-5">
+                        <Carousel
+                            :images="pet.gallery"
+                            :autoplay="6000"
+                        />
+                    </div>
                     <div class="flex justify-center">
                         <Button size="icon" class="mx-2" action>
                             <Link :href="'/pets/' + pet.id + '/edit'">

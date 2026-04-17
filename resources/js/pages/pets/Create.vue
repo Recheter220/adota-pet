@@ -141,6 +141,7 @@ const submit = () => {
                 <ImageUpload
                     v-model="form.gallery"
                     label="Galeria de Fotos"
+                    multiple
                     :error="$page.props.errors.gallery"
                 />
             </div>

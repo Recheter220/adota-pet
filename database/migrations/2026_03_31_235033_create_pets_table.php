@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('color', 50)->nullable();
             $table->date('birthday')->nullable();
             $table->text('bio')->nullable();
-            $table->string('picture')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

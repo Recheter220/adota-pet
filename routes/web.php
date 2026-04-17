@@ -15,6 +15,11 @@ Route::prefix('/pets')
         Route::delete('/{pet}', '\App\Http\Controllers\PetController@destroy')->name('pets.delete');
     });
 
+Route::prefix('/pet-gallery')
+    ->group(function () {
+        Route::delete('/{item}', '\App\Http\Controllers\PetGalleryController@destroy')->name('pet_gallery.delete');
+    });
+
 Route::prefix('/organizations')
     ->group(function () {
         Route::get('/', '\App\Http\Controllers\OrganizationController@index')->name('organizations.index');

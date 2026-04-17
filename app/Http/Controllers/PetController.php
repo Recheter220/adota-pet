@@ -29,7 +29,7 @@ class PetController extends Controller
      */
     public function index()
     {
-        $pets = Pet::with('organization')->get();
+        $pets = Pet::with(['organization', 'gallery'])->get();
 
         return Inertia::render('pets/Index', [
             'pets' => $pets,
@@ -57,20 +57,28 @@ class PetController extends Controller
             'color' => ['required', 'string'],
             'birthday' => ['required', 'date'],
             'bio' => ['required', 'string'],
-            'gallery' => ['mimetypes:image/*']
+            'gallery' => ['array'],
+            'gallery.*' => ['mimetypes:image/*']
         ], $this->messages, $this->fields);
 
         /** TODO: remove hardcoded organization_id before Auth */
         $organization_id = Organization::inRandomOrder()->first()->id;
         $validated['organization_id'] = $organization_id;
 
+        /** @var Pet $pet */
         $pet = Pet::create($validated);
 
+        $pictures = $validated['gallery'];
         /** @var UploadedFile $picture */
-        $picture = $validated['gallery'];
-        $path = sprintf('pets/gallery/%d', $pet->id);
-        $pet->picture = $picture->storePublicly($path);
-        $pet->save();
+        foreach ($pictures as $picture) {
+            $path = sprintf('pets/gallery/%d', $pet->id);
+
+            $fullPath = $picture->storePublicly($path, ['disk' => 'public']);
+
+            $pet->gallery()->create([
+                'path' => $fullPath
+            ]);
+        }
 
         return redirect()->route('pets.index');
     }
@@ -88,6 +96,8 @@ class PetController extends Controller
      */
     public function edit(Pet $pet)
     {
+        $pet->load('gallery');
+
         return Inertia::render('pets/Edit', [
             'pet' => $pet,
         ]);
@@ -98,8 +108,32 @@ class PetController extends Controller
      */
     public function update(Request $request, Pet $pet)
     {
-        $pet->fill($request->input());
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'species' => ['required', 'string'],
+            'gender' => ['required', 'string'],
+            'breed' => ['required', 'string'],
+            'color' => ['required', 'string'],
+            'birthday' => ['required', 'date'],
+            'bio' => ['required', 'string'],
+            'gallery' => ['array'],
+            'gallery.*' => ['mimetypes:image/*']
+        ], $this->messages, $this->fields);
+
+        $pet->fill($validated);
         $pet->save();
+
+        $pictures = $validated['gallery'];
+        /** @var UploadedFile $picture */
+        foreach ($pictures as $picture) {
+            $path = sprintf('pets/gallery/%d', $pet->id);
+
+            $fullPath = $picture->storePublicly($path, ['disk' => 'public']);
+
+            $pet->gallery()->create([
+                'path' => $fullPath
+            ]);
+        }
 
         return redirect()->route('pets.index');
     }

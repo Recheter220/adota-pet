@@ -1,4 +1,5 @@
 import type { Organization } from "./organization";
+import type { PetGallery } from "./pet-gallery";
 
 export type Pet = {
     id: number;
@@ -11,6 +12,7 @@ export type Pet = {
     color: string;
     birthday: string;
     bio: string;
+    gallery: PetGallery[];
     picture: string;
     created_at: string;
     updated_at: string;

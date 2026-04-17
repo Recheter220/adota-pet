@@ -13,10 +13,17 @@ Funcionalidades básicas requisitadas pela ONG:
 Sistemas
 - [ ] Autenticação básica
 - [ ] Permissões básicas
-- [ ] Upload de imagem
+- [x] Upload de imagem
     - [x] Criar componente reutilizável
     - [x] Validação MIME
     - [x] Armazenamento
+- [-] Galeria de Pets
+    - [x] Criar componente de carrossel
+    - [x] Reprodução automática com animação de deslizar
+    - [x] Botão de excluir no carrossel
+    - [ ] Melhorar componente de confirmação (swal?)
+    - [ ] Trocar ID para UUID
+    - [ ] Validar permissão antes de excluir
 - [ ] CRUD Organizações
     - [ ] Perfil da organização com carrossel de pets
     - [ ] Organização DEVE ter ao menos um administrador
@@ -53,10 +60,17 @@ Systems
 
 - [ ] Basic auth system
 - [ ] Basic permission system
-- [ ] Picture upload
+- [x] Picture upload
     - [x] Create reusable component
     - [x] MIME check
     - [x] Storage
+- [-] Pet Gallery
+    - [x] Create carousel component
+    - [x] Autoplay with slide animation
+    - [x] Delete button on carousel    
+    - [ ] Improve confirm component (swal?)
+    - [ ] Change ID to UUID
+    - [ ] Validate permission before deleting
 - [ ] CRUD Organizations
     - [ ] Organization profile with pets carousel
     - [ ] Organization MUST have at least one administrator

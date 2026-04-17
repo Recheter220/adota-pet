@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import Carousel from '@/shared/Carousel.vue';
+import ImageUpload from '@/shared/ImageUpload.vue';
 import type { Pet } from '@/types/models/pet';
 
 type Props = {
@@ -16,6 +18,7 @@ const form = useForm({
     color: props.pet.color,
     birthday: props.pet.birthday,
     bio: props.pet.bio,
+    gallery: [],
 });
 
 const submit = () => {
@@ -119,6 +122,24 @@ const submit = () => {
                     rows="4"
                     class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                 ></textarea>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700"
+                    >Galeria de Fotos</label
+                >
+                <div class="carousel-container px-10 py-5 max-w-50%">
+                    <Carousel :images="props.pet.gallery" show-delete />
+                </div>
+            </div>
+
+            <div>
+                <ImageUpload
+                    v-model="form.gallery"
+                    label="Upload de Fotos"
+                    multiple
+                    :error="$page.props.errors.gallery"
+                />
             </div>
 
             <div class="flex items-center justify-between space-x-3 pt-4">
