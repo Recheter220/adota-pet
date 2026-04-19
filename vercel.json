@@ -34,6 +34,13 @@
         "FILESYSTEM_DISK": "local",
         "QUEUE_CONNECTION": "database",
         "CACHE_STORE": "database",
-        "VITE_APP_NAME": "${APP_NAME}"
+        "VITE_APP_NAME": "${APP_NAME}",
+        "APP_CONFIG_CACHE": "/tmp/config.php",
+        "APP_EVENTS_CACHE": "/tmp/events.php",
+        "APP_PACKAGES_CACHE": "/tmp/packages.php",
+        "APP_ROUTES_CACHE": "/tmp/routes.php",
+        "APP_SERVICES_CACHE": "/tmp/services.php",
+        "VIEW_COMPILED_PATH": "/tmp",
+        "CACHE_DRIVER": "array"
     }
 }
