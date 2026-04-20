@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Compressor from 'compressorjs';
 import { ref, onUnmounted, watch } from 'vue';
 
 const props = defineProps<{
@@ -45,7 +46,26 @@ watch(
     { immediate: true },
 );
 
-const handleFileChange = (event: Event) => {
+const compressImage = (file: File): Promise<File> => {
+    return new Promise((resolve) => {
+        new Compressor(file, {
+            maxWidth: 800,
+            success(result) {
+                const compressedFile = new File([result], file.name, {
+                    type: result.type,
+                    lastModified: Date.now(),
+                });
+                resolve(compressedFile);
+            },
+            error(err) {
+                console.error('Compression error:', err.message);
+                resolve(file);
+            },
+        });
+    });
+};
+
+const handleFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
 
@@ -53,14 +73,17 @@ const handleFileChange = (event: Event) => {
         return;
     }
 
+    const filesArray = Array.from(files);
+    const compressedFiles = await Promise.all(filesArray.map(compressImage));
+
     if (props.multiple) {
         const currentFiles = Array.isArray(props.modelValue)
             ? [...props.modelValue]
             : [];
-        const newFiles = [...currentFiles, ...Array.from(files)];
+        const newFiles = [...currentFiles, ...compressedFiles];
         emit('update:modelValue', newFiles);
     } else {
-        const file = files[0];
+        const file = compressedFiles[0];
         emit('update:modelValue', file);
     }
 
