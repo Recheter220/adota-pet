@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class PetGallery extends Model
 {
@@ -31,6 +32,6 @@ class PetGallery extends Model
 
     public function getUrlAttribute()
     {
-        return asset($this->attributes['path']);
+        return Storage::url($this->attributes['path']);
     }
 }

@@ -27,6 +27,15 @@ class Organization extends Model
     /** @use HasFactory<\Database\Factories\OrganizationFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'email',
+        'website',
+        'verified',
+    ];
+
     public function pets()
     {
         return $this->hasMany(Pet::class);

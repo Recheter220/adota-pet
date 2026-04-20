@@ -6,6 +6,7 @@ use App\Models\Organization;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PetController extends Controller
@@ -73,7 +74,7 @@ class PetController extends Controller
         foreach ($pictures as $picture) {
             $path = sprintf('pets/gallery/%d', $pet->id);
 
-            $fullPath = $picture->storePublicly($path, ['disk' => 'public']);
+            $fullPath = $picture->storePublicly($path, ['disk' => Storage::getDefaultDriver()]);
 
             $pet->gallery()->create([
                 'path' => $fullPath
@@ -128,7 +129,7 @@ class PetController extends Controller
         foreach ($pictures as $picture) {
             $path = sprintf('pets/gallery/%d', $pet->id);
 
-            $fullPath = $picture->storePublicly($path, ['disk' => 'public']);
+            $fullPath = $picture->storePublicly($path, ['disk' => Storage::getDefaultDriver()]);
 
             $pet->gallery()->create([
                 'path' => $fullPath
